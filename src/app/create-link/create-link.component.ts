@@ -9,12 +9,12 @@ import { baseUrl } from 'src/config/config';
   templateUrl: './create-link.component.html',
   styleUrls: ['./create-link.component.css']
 })
-export class CreateLinkComponent implements OnInit{
+export class CreateLinkComponent implements OnInit {
   linkForm!: FormGroup;
   originalUrl: string = '';
   shortUrl: string | null = null;
   baseUrl: string = baseUrl;
-  submitted: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private linkService: LinkService, private router: Router, private fb: FormBuilder) { }
 
@@ -25,13 +25,22 @@ export class CreateLinkComponent implements OnInit{
   }
 
   createShortLink(): void {
-    this.submitted = true;
+    if (this.linkForm.invalid) {
+      return;
+    }
+
+    this.isLoading = true;
     if (this.linkForm.valid) {
       const originalUrl = this.linkForm.value.originalUrl;
       this.linkService.addLink({ originalUrl }).subscribe(response => {
         console.log("🚀 ~ CreateLinkComponent ~ this.linkService.addLink ~ response:", response);
         this.shortUrl = this.baseUrl + response.shortenedUrl;
-      });
+        this.isLoading = false;
+      },
+        error => {
+          console.error('Error creating short URL', error);
+          this.isLoading = false;
+        });
     }
   }
 }

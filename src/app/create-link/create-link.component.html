@@ -9,7 +9,7 @@
         </div>
         <button type="submit" [disabled]="linkForm.invalid">Create</button>
     </form>
-
+    <div *ngIf="isLoading" class="spinner"></div>
     <div *ngIf="shortUrl">
         <h3>Short URL Created:</h3>
         <a [href]="shortUrl" target="_blank">{{ shortUrl }}</a>
