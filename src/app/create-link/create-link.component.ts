@@ -1,23 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LinkService } from '../link.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { baseUrl } from 'src/config/config';
 
 @Component({
   selector: 'app-create-link',
   templateUrl: './create-link.component.html',
   styleUrls: ['./create-link.component.css']
 })
-export class CreateLinkComponent {
+export class CreateLinkComponent implements OnInit{
+  linkForm!: FormGroup;
   originalUrl: string = '';
   shortUrl: string | null = null;
-  baseUrl: string = 'http://localhost:4200/';
+  baseUrl: string = baseUrl;
+  submitted: boolean = false;
 
-  constructor(private linkService: LinkService, private router: Router) { }
+  constructor(private linkService: LinkService, private router: Router, private fb: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.linkForm = this.fb.group({
+      originalUrl: ['', [Validators.required, Validators.pattern('^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})([\\/\\w .-]*)*\\/?$')]]
+    });
+  }
 
   createShortLink(): void {
-    this.linkService.addLink({ originalUrl: this.originalUrl }).subscribe(response => {
-      console.log("🚀 ~ CreateLinkComponent ~ this.linkService.addLink ~ response:", response)
-      this.shortUrl = this.baseUrl + response.shortenedUrl;
-    });
+    this.submitted = true;
+    if (this.linkForm.valid) {
+      const originalUrl = this.linkForm.value.originalUrl;
+      this.linkService.addLink({ originalUrl }).subscribe(response => {
+        console.log("🚀 ~ CreateLinkComponent ~ this.linkService.addLink ~ response:", response);
+        this.shortUrl = this.baseUrl + response.shortenedUrl;
+      });
+    }
   }
 }

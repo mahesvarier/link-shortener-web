@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LinkService } from '../link.service';
+import { baseUrl } from 'src/config/config';
 
 @Component({
   selector: 'app-link-list',
@@ -8,7 +9,7 @@ import { LinkService } from '../link.service';
 })
 export class LinkListComponent implements OnInit{
   links: string[] = [];
-  baseUrl: string = 'http://localhost:4200/';
+  baseUrl: string = baseUrl;
 
   constructor(private linkService: LinkService) { }
 

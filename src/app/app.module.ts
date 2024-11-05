@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LinkListComponent } from './link-list/link-list.component';
 import { CreateLinkComponent } from './create-link/create-link.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RedirectComponent } from './redirect/redirect.component';
 
@@ -20,7 +20,8 @@ import { RedirectComponent } from './redirect/redirect.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

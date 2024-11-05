@@ -1,13 +1,17 @@
 <div>
     <h2>Add New Link</h2>
-    <form (ngSubmit)="createShortLink()">
+    <form [formGroup]="linkForm" (ngSubmit)="createShortLink()">
         <label for="originalUrl">Original URL:</label>
-        <input type="text" id="originalUrl" [(ngModel)]="originalUrl" name="originalUrl" required>
-        <button type="submit">Add</button>
+        <input type="text" id="originalUrl" formControlName="originalUrl" required>
+        <div *ngIf="linkForm.get('originalUrl')?.invalid && linkForm.get('originalUrl')?.touched">
+            <small *ngIf="linkForm.get('originalUrl')?.errors?.['required']">URL is required.</small>
+            <small *ngIf="linkForm.get('originalUrl')?.errors?.['pattern']">Invalid URL format.</small>
+        </div>
+        <button type="submit" [disabled]="linkForm.invalid">Create</button>
     </form>
 
     <div *ngIf="shortUrl">
         <h3>Short URL Created:</h3>
         <a [href]="shortUrl" target="_blank">{{ shortUrl }}</a>
-      </div>
+    </div>
 </div>
