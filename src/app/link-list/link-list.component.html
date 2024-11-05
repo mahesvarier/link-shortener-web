@@ -1,9 +1,9 @@
 <div>
   <h2>Shortened Links</h2>
-  <ul>
+  <div *ngIf="isLoading" class="spinner"></div>
+  <ul *ngIf="!isLoading">
     <li *ngFor="let link of links">
       <a [href]="link" target="_blank">{{ link }}</a>
     </li>
   </ul>
-  <a routerLink="/create">Add New Link</a>
 </div>
