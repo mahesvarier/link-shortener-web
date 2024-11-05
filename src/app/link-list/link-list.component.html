@@ -1,0 +1,9 @@
+<div>
+  <h2>Shortened Links</h2>
+  <ul>
+    <li *ngFor="let link of links">
+      <a [href]="link" target="_blank">{{ link }}</a>
+    </li>
+  </ul>
+  <a routerLink="/add">Add New Link</a>
+</div>
